@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Assume initialNames and jobs are defined as before
     const initialNames = ['Name 1', 'Name 2', 'Name 3']; // Example names
     const list1 = document.getElementById('list1');
-    const list2 = document.getElementById('list2');
-    
+    const jobs = ['Photographer', 'Coordinator', 'Greeter'];
+    const jobAssignments = document.getElementById('job-assignments');
+
     // Populate initial names
     initialNames.forEach(name => {
         const div = document.createElement('div');
@@ -11,37 +13,38 @@ document.addEventListener('DOMContentLoaded', function() {
         list1.appendChild(div);
     });
 
-    // Make both lists sortable and connected
+    // Make the initial list sortable
     new Sortable(list1, {
-        group: 'shared', // set both lists to the same group
+        group: 'names',
         animation: 150
     });
 
-    new Sortable(list2, {
-        group: 'shared',
-        animation: 150
-    });
-
-    // Example job roles
-    const jobs = ['Photographer', 'Coordinator', 'Greeter'];
-    const jobAssignments = document.getElementById('job-assignments');
-
-    // Populate job assignments
+    // Populate job assignments and make them droppable
     jobs.forEach(job => {
-        const div = document.createElement('div');
-        div.textContent = job + ': ';
-        div.className = 'job'; // Style this as needed
-        jobAssignments.appendChild(div);
-    });
+        const jobDiv = document.createElement('div');
+        jobDiv.className = 'job'; // Ensure this has suitable styling
 
-    document.getElementById('random-assign').addEventListener('click', function() {
-        // Simple random assignment logic here
-        // For demonstration purposes, this is very basic and may not be fully fair or optimal
-        const names = list2.querySelectorAll('.name');
-        names.forEach(name => {
-            const randomJobIndex = Math.floor(Math.random() * jobs.length);
-            const job = jobAssignments.children[randomJobIndex];
-            job.textContent += ' ' + name.textContent; // This appends names; you might want to refine this logic
+        const nameContainer = document.createElement('div');
+        nameContainer.className = 'name-container'; // Style as needed; this will hold the names
+        nameContainer.setAttribute('data-id', job); // Useful for identification
+
+        jobDiv.textContent = job + ': ';
+        jobDiv.appendChild(nameContainer);
+
+        jobAssignments.appendChild(jobDiv);
+
+        // Make each job a droppable area that only accepts items from the 'names' group
+        new Sortable(nameContainer, {
+            group: 'names',
+            animation: 150,
+            sort: false, // Prevent sorting inside the container
+            onAdd: function(evt) {
+                // Prevent more than two names from being added
+                let items = evt.to.children;
+                if(items.length > 2) {
+                    evt.to.removeChild(evt.item); // Or swap with one of the existing items
+                }
+            }
         });
     });
 });
