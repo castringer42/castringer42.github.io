@@ -29,6 +29,39 @@ html {
 }
 
 .assignments-container {
-    flex-grow: 1;
-    padding-left: 20px;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.jobs-frame {
+    border: 2px solid #004d99;
+    /* Colored frame around the entire job assignments */
+    border-radius: 15px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    /* Slight background color for contrast */
+}
+
+.job {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    /* Each job's background */
+}
+
+.name-container {
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+    /* Spacing between names */
+    min-width: 120px;
+    /* Ensure there's enough space for two names */
+    border: 2px dashed #004d99;
+    /* Dashed border for the slots */
+    border-radius: 10px;
+    padding: 5px;
 }

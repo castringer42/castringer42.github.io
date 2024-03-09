@@ -22,13 +22,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Populate job assignments and make them droppable
     jobs.forEach(job => {
         const jobDiv = document.createElement('div');
-        jobDiv.className = 'job'; // Ensure this has suitable styling
+        jobDiv.className = 'job';
+
+        const jobTitle = document.createElement('span');
+        jobTitle.textContent = job + ': ';
 
         const nameContainer = document.createElement('div');
-        nameContainer.className = 'name-container'; // Style as needed; this will hold the names
-        nameContainer.setAttribute('data-id', job); // Useful for identification
+        nameContainer.className = 'name-container';
+        nameContainer.setAttribute('data-id', job);
 
-        jobDiv.textContent = job + ': ';
+        jobDiv.appendChild(jobTitle);
         jobDiv.appendChild(nameContainer);
 
         jobAssignments.appendChild(jobDiv);
